@@ -4,6 +4,7 @@ Test BaseSettings class
 from collections.abc import Iterable
 from types import ModuleType
 from unittest.case import TestCase
+from unittest.main import main
 
 from amphisbaena.settings import (
     BaseSettings,
@@ -33,8 +34,8 @@ class BaseSettingsTest(TestCase):
         self.assertDictEqual(
             settings._data,  # pylint: disable = protected-access
             {
-                "a": Setting(priority="project", priority_value=20, value=1),
-                "b": Setting(priority="project", priority_value=20, value=2),
+                "a": Setting(priority="project", value=1),
+                "b": Setting(priority="project", value=2),
             },
         )
 
@@ -169,7 +170,7 @@ class SettingsTest(TestCase):
         self.assertIn("A", settings)
         self.assertEqual(
             settings._data["A"],  # pylint: disable = protected-access
-            Setting(priority="project", priority_value=20, value=1),
+            Setting(priority="project", value=1),
         )
 
         # settings = Settings()
@@ -193,3 +194,7 @@ class SettingsTest(TestCase):
         settings = Settings(settings={"A": 1, "B": 2}, load_default=False)
 
         self.assertDictEqual(settings.copy_to_dict(), {"A": 1, "B": 2})
+
+
+if __name__ == "__main__":
+    main()
