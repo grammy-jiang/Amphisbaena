@@ -4,9 +4,9 @@ Settings
 
 from __future__ import annotations
 
-from collections import namedtuple
 from collections.abc import MutableMapping
 from contextlib import contextmanager
+from dataclasses import dataclass
 from importlib import import_module
 from types import ModuleType
 from typing import Any, Dict, Generator, Iterator, Mapping, Union
@@ -19,7 +19,12 @@ PRIORITIES: Dict[str, int] = {
     "cmd": 60,
 }
 
-Setting = namedtuple("Setting", ["priority", "priority_value", "value"])
+
+@dataclass
+class Setting:
+    priority: str
+    priority_value: int
+    value: Any
 
 
 class SettingsException(Exception):
