@@ -22,9 +22,15 @@ PRIORITIES: Dict[str, int] = {
 
 @dataclass
 class Setting:
+    """
+    The single setting container
+    """
+
     priority: str
-    priority_value: int
     value: Any
+
+    def __post_init__(self):
+        self.priority_value = PRIORITIES[self.priority]
 
 
 class SettingsException(Exception):
@@ -122,11 +128,7 @@ class BaseSettings(MutableMapping):
         :return:
         :rtype: None
         """
-        setting: Setting = Setting(
-            priority=self._priority,
-            priority_value=PRIORITIES[self._priority],
-            value=v,
-        )
+        setting: Setting = Setting(priority=self._priority, value=v)
         if k in self:
             _v = self._data[k]
             if PRIORITIES[self._priority] < _v.priority_value:
