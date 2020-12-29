@@ -43,7 +43,7 @@ class SettingTest(TestCase):
         del self.setting_c
         del self.setting_d
 
-    def test_priority(self) -> None:
+    def test_priority_value(self) -> None:
         """
 
         :return:
@@ -53,15 +53,6 @@ class SettingTest(TestCase):
         self.assertEqual(self.setting_b.priority_value, PRIORITIES["project"])
         self.assertEqual(self.setting_c.priority_value, PRIORITIES["env"])
         self.assertEqual(self.setting_d.priority_value, PRIORITIES["cmd"])
-
-    def test_compare(self) -> None:
-        """
-
-        :return:
-        :rtype: None
-        """
-        setting_a = Setting("default", "a", "a")
-        self.assertEqual(self.setting_a, setting_a)
 
 
 class BaseSettingsTest(TestCase):
