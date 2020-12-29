@@ -7,12 +7,61 @@ from unittest.case import TestCase
 from unittest.main import main
 
 from amphisbaena.settings import (
+    PRIORITIES,
     BaseSettings,
     Setting,
     Settings,
     SettingsFrozenException,
     SettingsLowPriorityException,
 )
+
+
+class SettingTest(TestCase):
+    """
+    The test case for Setting
+    """
+
+    def setUp(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        self.setting_a = Setting("default", "a")
+        self.setting_b = Setting("project", "b")
+        self.setting_c = Setting("env", "c")
+        self.setting_d = Setting("cmd", "d")
+
+    def tearDown(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        del self.setting_a
+        del self.setting_b
+        del self.setting_c
+        del self.setting_d
+
+    def test_priority(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        self.assertEqual(self.setting_a.priority_value, PRIORITIES["default"])
+        self.assertEqual(self.setting_b.priority_value, PRIORITIES["project"])
+        self.assertEqual(self.setting_c.priority_value, PRIORITIES["env"])
+        self.assertEqual(self.setting_d.priority_value, PRIORITIES["cmd"])
+
+    def test_compare(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        setting_a = Setting("default", "a")
+        self.assertEqual(self.setting_a, setting_a)
 
 
 class BaseSettingsTest(TestCase):
