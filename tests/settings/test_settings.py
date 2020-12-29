@@ -120,6 +120,28 @@ class SettingTest(TestCase):
         setting_b_not_lt = Setting("env", "b", "b")
         self.assertFalse(setting_b_not_lt < self.setting_b)
 
+    def test_gt(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        with self.assertRaises(CompareWithNotSettingException):
+            self.assertTrue("a_false_setting" > self.setting_a)
+
+        with self.assertRaises(CompareWithNotSameNameSettingException):
+            setting_not_same_name = Setting("default", "not_same_name", "a")
+            self.assertTrue(setting_not_same_name > self.setting_a)
+
+        setting_b_gt = Setting("env", "b", "b")
+        self.assertTrue(setting_b_gt > self.setting_b)
+
+        setting_b_not_gt = Setting("project", "b", "b")
+        self.assertFalse(setting_b_not_gt > self.setting_b)
+
+        setting_b_not_gt = Setting("default", "b", "b")
+        self.assertFalse(setting_b_not_gt > self.setting_b)
+
 
 class BaseSettingsTest(TestCase):
     """
