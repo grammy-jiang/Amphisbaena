@@ -62,19 +62,40 @@ class SettingTest(TestCase):
         :rtype: None
         """
         with self.assertRaises(CompareWithNotSettingException):
-            self.assertEqual("a_false_setting", self.setting_a)
-
-        setting_not_same_priority = Setting("project", "a", "a")
-        self.assertNotEqual(setting_not_same_priority, self.setting_a)
-
-        setting_not_same_name = Setting("default", "b", "a")
-        self.assertNotEqual(setting_not_same_name, self.setting_a)
-
-        setting_not_same_value = Setting("default", "a", "b")
-        self.assertNotEqual(setting_not_same_value, self.setting_a)
+            self.assertTrue("a_false_setting" == self.setting_a)
 
         setting_equal = Setting("default", "a", "a")
-        self.assertEqual(setting_equal, self.setting_a)
+        self.assertTrue(setting_equal == self.setting_a)
+
+        setting_not_same_priority = Setting("project", "a", "a")
+        self.assertFalse(setting_not_same_priority == self.setting_a)
+
+        setting_not_same_name = Setting("default", "not_same_name", "a")
+        self.assertFalse(setting_not_same_name == self.setting_a)
+
+        setting_not_same_value = Setting("default", "a", "not_same_value")
+        self.assertFalse(setting_not_same_value == self.setting_a)
+
+    def test_ne(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        with self.assertRaises(CompareWithNotSettingException):
+            self.assertTrue("a_false_setting" != self.setting_a)
+
+        setting_not_same_priority = Setting("project", "a", "a")
+        self.assertTrue(setting_not_same_priority != self.setting_a)
+
+        setting_not_same_name = Setting("default", "not_same_name", "a")
+        self.assertTrue(setting_not_same_name != self.setting_a)
+
+        setting_not_same_value = Setting("default", "a", "not_same_value")
+        self.assertTrue(setting_not_same_value != self.setting_a)
+
+        setting_equal = Setting("default", "a", "a")
+        self.assertFalse(setting_equal != self.setting_a)
 
 
 class BaseSettingsTest(TestCase):
