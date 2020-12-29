@@ -9,6 +9,7 @@ from unittest.main import main
 from amphisbaena.settings import (
     PRIORITIES,
     BaseSettings,
+    CompareWithNotSettingException,
     Setting,
     Settings,
     SettingsFrozenException,
@@ -53,6 +54,27 @@ class SettingTest(TestCase):
         self.assertEqual(self.setting_b.priority_value, PRIORITIES["project"])
         self.assertEqual(self.setting_c.priority_value, PRIORITIES["env"])
         self.assertEqual(self.setting_d.priority_value, PRIORITIES["cmd"])
+
+    def test_eq(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        with self.assertRaises(CompareWithNotSettingException):
+            self.assertEqual("a_false_setting", self.setting_a)
+
+        setting_not_same_priority = Setting("project", "a", "a")
+        self.assertNotEqual(setting_not_same_priority, self.setting_a)
+
+        setting_not_same_name = Setting("default", "b", "a")
+        self.assertNotEqual(setting_not_same_name, self.setting_a)
+
+        setting_not_same_value = Setting("default", "a", "b")
+        self.assertNotEqual(setting_not_same_value, self.setting_a)
+
+        setting_equal = Setting("default", "a", "a")
+        self.assertEqual(setting_equal, self.setting_a)
 
 
 class BaseSettingsTest(TestCase):

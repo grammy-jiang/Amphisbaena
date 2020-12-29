@@ -26,6 +26,12 @@ class SettingsException(Exception):
     """
 
 
+class CompareWithNotSettingException(SettingsException):
+    """
+    Compare with not Setting exception
+    """
+
+
 class SettingsFrozenException(SettingsException):
     """
     The exception when modify a frozen settings instance
@@ -50,6 +56,27 @@ class Setting:
 
     def __post_init__(self):
         self.priority_value = PRIORITIES[self.priority]
+
+    def __eq__(self, other: object) -> bool:
+        """
+
+        :param other:
+        :type other: object
+        :return:
+        :rtype: bool
+        """
+        if not isinstance(other, self.__class__):
+            raise CompareWithNotSettingException
+
+        if self.priority != other.priority:  # type: ignore
+            return False
+        if self.name != other.name:  # type: ignore
+            return False
+        if self.value != other.value:  # type: ignore
+            return False
+        if self.priority_value != other.priority_value:  # type: ignore
+            return False
+        return True
 
 
 class BaseSettings(MutableMapping):
