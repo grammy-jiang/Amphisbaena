@@ -20,20 +20,6 @@ PRIORITIES: Dict[str, int] = {
 }
 
 
-@dataclass
-class Setting:
-    """
-    The single setting container
-    """
-
-    priority: str
-    name: str
-    value: Any
-
-    def __post_init__(self):
-        self.priority_value = PRIORITIES[self.priority]
-
-
 class SettingsException(Exception):
     """
     The base exception
@@ -50,6 +36,20 @@ class SettingsLowPriorityException(SettingsException):
     """
     The exception when modify a setting with a lower priority
     """
+
+
+@dataclass
+class Setting:
+    """
+    The single setting container
+    """
+
+    priority: str
+    name: str
+    value: Any
+
+    def __post_init__(self):
+        self.priority_value = PRIORITIES[self.priority]
 
 
 class BaseSettings(MutableMapping):
