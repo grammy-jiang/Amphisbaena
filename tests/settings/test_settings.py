@@ -27,10 +27,10 @@ class SettingTest(TestCase):
         :return:
         :rtype: None
         """
-        self.setting_a = Setting("default", "a")
-        self.setting_b = Setting("project", "b")
-        self.setting_c = Setting("env", "c")
-        self.setting_d = Setting("cmd", "d")
+        self.setting_a = Setting("default", "a", "a")
+        self.setting_b = Setting("project", "b", "b")
+        self.setting_c = Setting("env", "c", "c")
+        self.setting_d = Setting("cmd", "d", "d")
 
     def tearDown(self) -> None:
         """
@@ -60,7 +60,7 @@ class SettingTest(TestCase):
         :return:
         :rtype: None
         """
-        setting_a = Setting("default", "a")
+        setting_a = Setting("default", "a", "a")
         self.assertEqual(self.setting_a, setting_a)
 
 
@@ -83,8 +83,8 @@ class BaseSettingsTest(TestCase):
         self.assertDictEqual(
             settings._data,  # pylint: disable = protected-access
             {
-                "a": Setting(priority="project", value=1),
-                "b": Setting(priority="project", value=2),
+                "a": Setting("project", "a", 1),
+                "b": Setting("project", "b", 2),
             },
         )
 
@@ -219,7 +219,7 @@ class SettingsTest(TestCase):
         self.assertIn("A", settings)
         self.assertEqual(
             settings._data["A"],  # pylint: disable = protected-access
-            Setting(priority="project", value=1),
+            Setting("project", "A", 1),
         )
 
         # settings = Settings()

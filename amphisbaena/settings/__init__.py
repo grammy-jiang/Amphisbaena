@@ -27,6 +27,7 @@ class Setting:
     """
 
     priority: str
+    name: str
     value: Any
 
     def __post_init__(self):
@@ -128,7 +129,7 @@ class BaseSettings(MutableMapping):
         :return:
         :rtype: None
         """
-        setting: Setting = Setting(priority=self._priority, value=v)
+        setting: Setting = Setting(self._priority, k, v)
         if k in self:
             _v = self._data[k]
             if PRIORITIES[self._priority] < _v.priority_value:
