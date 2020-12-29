@@ -9,6 +9,7 @@ from unittest.main import main
 from amphisbaena.settings import (
     PRIORITIES,
     BaseSettings,
+    CompareWithNotSameNameSettingException,
     CompareWithNotSettingException,
     Setting,
     Settings,
@@ -96,6 +97,28 @@ class SettingTest(TestCase):
 
         setting_equal = Setting("default", "a", "a")
         self.assertFalse(setting_equal != self.setting_a)
+
+    def test_lt(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        with self.assertRaises(CompareWithNotSettingException):
+            self.assertTrue(self.setting_a < "a_false_setting")
+
+        with self.assertRaises(CompareWithNotSameNameSettingException):
+            setting_not_same_name = Setting("default", "not_same_name", "a")
+            self.assertTrue(setting_not_same_name < self.setting_a)
+
+        setting_b_lt = Setting("default", "b", "b")
+        self.assertTrue(setting_b_lt < self.setting_b)
+
+        setting_b_not_lt = Setting("project", "b", "b")
+        self.assertFalse(setting_b_not_lt < self.setting_b)
+
+        setting_b_not_lt = Setting("env", "b", "b")
+        self.assertFalse(setting_b_not_lt < self.setting_b)
 
 
 class BaseSettingsTest(TestCase):

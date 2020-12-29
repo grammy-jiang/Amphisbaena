@@ -32,6 +32,12 @@ class CompareWithNotSettingException(SettingsException):
     """
 
 
+class CompareWithNotSameNameSettingException(SettingsException):
+    """
+    Compare with not same name Setting
+    """
+
+
 class SettingsFrozenException(SettingsException):
     """
     The exception when modify a frozen settings instance
@@ -77,6 +83,20 @@ class Setting:
         if self.priority_value != other.priority_value:  # type: ignore
             return False
         return True
+
+    def __lt__(self, other: object) -> bool:
+        """
+
+        :param other:
+        :type other: object
+        :return:
+        :rtype: bool
+        """
+        if not isinstance(other, self.__class__):
+            raise CompareWithNotSettingException
+        if self.name != other.name:
+            raise CompareWithNotSameNameSettingException
+        return self.priority_value < other.priority_value
 
 
 class BaseSettings(MutableMapping):
