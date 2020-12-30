@@ -8,8 +8,11 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from importlib import import_module
 from importlib.util import find_spec
+from pathlib import Path
 from types import ModuleType
 from typing import Any, Dict, Generator, Iterator, Mapping, Union
+
+import yaml
 
 # The pair of priority and priority_value
 PRIORITIES: Dict[str, int] = {
@@ -311,6 +314,23 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
 
         for key in filter(lambda x: x.isupper(), dir(module)):
             self[key] = getattr(module, key)
+
+    def load_yaml(self, yml: Union[str, Path]) -> None:
+        """
+
+        :param yml:
+        :type yml: Union[str, Path]
+        :return:
+        :rtype: None
+        """
+        if isinstance(yml, str):
+            yml = Path(yml)
+
+        with yml.open() as fh:
+            yml_ = yaml.safe_load(fh)
+
+        if yml_:
+            self.update(yml_)
 
     def copy_to_dict(self) -> Dict[str, Any]:
         """

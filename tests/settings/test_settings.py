@@ -3,9 +3,12 @@ Test BaseSettings class
 """
 import logging
 from collections.abc import Iterable
+from tempfile import NamedTemporaryFile
 from types import ModuleType
 from unittest.case import TestCase
 from unittest.main import main
+
+import yaml
 
 from amphisbaena.settings import (
     PRIORITIES,
@@ -440,6 +443,24 @@ class SettingsTest(TestCase):
             settings._data["A"],  # pylint: disable = protected-access
             Setting("project", "A", 1),
         )
+
+    def test_load_yaml(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        test_yaml = {"A": 1, "B": 2}
+
+        yaml_file = NamedTemporaryFile(mode="w")
+        yaml.dump(test_yaml, yaml_file)
+
+        settings = Settings()
+        with settings.unfreeze() as settings_:
+            settings_.load_yaml(yaml_file.name)
+
+        self.assertIn("A", settings)
+        self.assertEqual(settings._data["A"], Setting("project", "A", 1))
 
     def test_copy_to_dict(self):
         """
