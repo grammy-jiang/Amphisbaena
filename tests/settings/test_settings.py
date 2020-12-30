@@ -330,18 +330,33 @@ class SettingsTest(TestCase):
     test Settings class
     """
 
+    def setUp(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        self.test_module = ModuleType(name="test")
+        setattr(self.test_module, "A", 1)
+
+    def tearDown(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        del self.test_module
+
     def test_update_from_module(self):
         """
         test the method of update_from_module
         :return:
         """
-        test_module = ModuleType(name="test")
-        setattr(test_module, "A", 1)
 
         settings = Settings()
         settings_: Settings
         with settings.unfreeze() as settings_:
-            settings_.load_module(test_module)  # pylint: disable=no-member
+            settings_.load_module(self.test_module)  # pylint: disable=no-member
 
         self.assertIn("A", settings)
         self.assertEqual(
