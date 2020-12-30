@@ -14,7 +14,7 @@ from amphisbaena.settings import (
     Setting,
     Settings,
     SettingsFrozenException,
-    SettingsLowPriorityException,
+    SettingsLowOrEqualPriorityException,
 )
 
 
@@ -267,8 +267,12 @@ class BaseSettingsTest(TestCase):
         with self.assertRaises(SettingsFrozenException):
             settings["c"] = 3
 
-        with self.assertRaises(SettingsLowPriorityException):
+        with self.assertRaises(SettingsLowOrEqualPriorityException):
             with settings.unfreeze("default") as settings_:
+                settings_["a"] = 3
+
+        with self.assertRaises(SettingsLowOrEqualPriorityException):
+            with settings.unfreeze("project") as settings_:
                 settings_["a"] = 3
 
     def test_delitem(self):

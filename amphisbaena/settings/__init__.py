@@ -44,7 +44,7 @@ class SettingsFrozenException(SettingsException):
     """
 
 
-class SettingsLowPriorityException(SettingsException):
+class SettingsLowOrEqualPriorityException(SettingsException):
     """
     The exception when modify a setting with a lower priority
     """
@@ -191,8 +191,8 @@ class BaseSettings(MutableMapping):
         :rtype: None
         """
         setting: Setting = Setting(self._priority, k, v)
-        if k in self and setting < self._data[k]:
-            raise SettingsLowPriorityException
+        if k in self and setting <= self._data[k]:
+            raise SettingsLowOrEqualPriorityException
 
         self._data[k] = setting
 
