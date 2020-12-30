@@ -348,6 +348,24 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         if json_:
             self.update(json_)
 
+    @classmethod
+    def from_module(
+        cls, module: Union[ModuleType, str], priority: str = "project"
+    ) -> Settings:
+        """
+
+        :param module:
+        :type module: Union[ModuleType, str]
+        :param priority:
+        :type priority: str
+        :return:
+        :rtype: Settings
+        """
+        obj = cls()
+        with obj.unfreeze(priority) as obj_:
+            obj_.load_module(module)
+        return obj
+
     def copy_to_dict(self) -> Dict[str, Any]:
         """
 

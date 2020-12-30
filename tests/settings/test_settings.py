@@ -482,6 +482,28 @@ class SettingsTest(TestCase):
         self.assertIn("A", settings)
         self.assertEqual(settings._data["A"], Setting("project", "A", 1))
 
+    def test_from_module(self) -> None:
+        """
+        test the method of from_module
+        :return:
+        :rtype: None
+        """
+        settings = Settings.from_module(self.test_module, "default")
+
+        self.assertIn("A", settings)
+        self.assertEqual(
+            settings._data["A"],  # pylint: disable = protected-access
+            Setting("default", "A", 1),
+        )
+
+        settings = Settings.from_module("tests.samples.settings", "default")
+
+        self.assertIn("A", settings)
+        self.assertEqual(
+            settings._data["A"],  # pylint: disable = protected-access
+            Setting("default", "A", 1),
+        )
+
     def test_copy_to_dict(self):
         """
 
