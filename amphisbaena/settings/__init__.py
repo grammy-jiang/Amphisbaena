@@ -191,10 +191,8 @@ class BaseSettings(MutableMapping):
         :rtype: None
         """
         setting: Setting = Setting(self._priority, k, v)
-        if k in self:
-            _v = self._data[k]
-            if PRIORITIES[self._priority] < _v.priority_value:
-                raise SettingsLowPriorityException
+        if k in self and setting < self._data[k]:
+            raise SettingsLowPriorityException
 
         self._data[k] = setting
 
