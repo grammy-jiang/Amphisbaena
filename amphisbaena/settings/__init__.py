@@ -26,6 +26,12 @@ class SettingsException(Exception):
     """
 
 
+class SettingNameNotUpperException(SettingsException):
+    """
+    The name of setting is not upper case
+    """
+
+
 class CompareWithNotSettingException(SettingsException):
     """
     Compare with not Setting exception
@@ -200,6 +206,9 @@ class BaseSettings(MutableMapping):
         :return:
         :rtype: None
         """
+        if not k.isupper():
+            raise SettingNameNotUpperException
+
         setting: Setting = Setting(self._priority, k, v)
         if k in self and setting <= self._data[k]:
             if not self._skip_error:

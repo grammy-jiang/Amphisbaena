@@ -13,6 +13,7 @@ from amphisbaena.settings import (
     CompareWithNotSameNameSettingException,
     CompareWithNotSettingException,
     Setting,
+    SettingNameNotUpperException,
     Settings,
     SettingsFrozenException,
     SettingsLowOrEqualPriorityException,
@@ -203,12 +204,12 @@ class BaseSettingsTest(TestCase):
         settings = BaseSettings()
         self.assertDictEqual(settings._data, {})  # pylint: disable = protected-access
 
-        settings = BaseSettings(settings={"a": 1, "b": 2})
+        settings = BaseSettings(settings={"A": 1, "B": 2})
         self.assertDictEqual(
             settings._data,  # pylint: disable = protected-access
             {
-                "a": Setting("project", "a", 1),
-                "b": Setting("project", "b", 2),
+                "A": Setting("project", "A", 1),
+                "B": Setting("project", "B", 2),
             },
         )
 
@@ -267,65 +268,69 @@ class BaseSettingsTest(TestCase):
         test the method of setitem
         :return:
         """
-        settings = BaseSettings(settings={"a": 1, "b": 2})
+        settings = BaseSettings(settings={"A": 1, "B": 2})
         with settings.unfreeze() as settings_:
-            settings_["c"] = 3
-        self.assertEqual(settings["c"], 3)
+            settings_["C"] = 3
+        self.assertEqual(settings["C"], 3)
 
         with self.assertRaises(SettingsFrozenException):
-            settings["c"] = 3
+            settings["C"] = 3
 
-        with self.assertRaises(SettingsLowOrEqualPriorityException):
+        with self.assertRaises(SettingNameNotUpperException):
             with settings.unfreeze("default") as settings_:
                 settings_["a"] = 3
 
         with self.assertRaises(SettingsLowOrEqualPriorityException):
+            with settings.unfreeze("default") as settings_:
+                settings_["A"] = 3
+
+        with self.assertRaises(SettingsLowOrEqualPriorityException):
             with settings.unfreeze("project") as settings_:
-                settings_["a"] = 3
+                settings_["A"] = 3
 
         try:
             with settings.unfreeze("default", skip_error=True) as settings_:
-                settings_["a"] = 3
+                settings_["A"] = 3
         except SettingsLowOrEqualPriorityException:
             self.fail("__setitem__ raised SettingsLowOrEqualPriorityException")
         else:
-            self.assertEqual(settings._data["a"], Setting("project", "a", 1))
+            self.assertEqual(settings._data["A"], Setting("project", "A", 1))
 
         try:
             with settings.unfreeze("project", skip_error=True) as settings_:
-                settings_["a"] = 3
+                settings_["A"] = 3
         except SettingsLowOrEqualPriorityException:
             self.fail("__setitem__ raised SettingsLowOrEqualPriorityException")
         else:
-            self.assertEqual(settings._data["a"], Setting("project", "a", 1))
+            self.assertEqual(settings._data["A"], Setting("project", "A", 1))
 
     def test_delitem(self):
         """
         test the method of del
         :return:
         """
-        settings = BaseSettings(settings={"a": 1, "b": 2})
+        settings = BaseSettings(settings={"A": 1, "B": 2})
         with settings.unfreeze() as settings_:
-            del settings_["a"]
-        self.assertNotIn("a", settings)
+            del settings_["A"]
+        self.assertNotIn("A", settings)
 
         with self.assertRaises(SettingsFrozenException):
-            del settings["a"]
+            del settings["A"]
 
     def test_getitem(self):
         """
         test the method of getitem
         :return:
         """
-        settings = BaseSettings(settings={"a": 1, "b": 2})
-        self.assertEqual(settings["a"], 1)
+        settings = BaseSettings(settings={"A": 1, "B": 2})
+        self.assertEqual(settings["A"], 1)
 
     def test_len(self):
         """
         test the method of len
         :return:
         """
-        settings = BaseSettings(settings={"a": 1, "b": 2})
+        settings = BaseSettings(settings={"A": 1, "B": 2})
         self.assertEqual(len(settings), 2)
 
         settings = BaseSettings()
@@ -344,9 +349,9 @@ class BaseSettingsTest(TestCase):
         test the method of contains
         :return:
         """
-        settings = BaseSettings(settings={"a": 1, "b": 2})
-        self.assertTrue("a" in settings)
-        self.assertFalse("c" in settings)
+        settings = BaseSettings(settings={"A": 1, "B": 2})
+        self.assertTrue("A" in settings)
+        self.assertFalse("C" in settings)
 
 
 class SettingsTest(TestCase):
