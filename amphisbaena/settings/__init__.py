@@ -216,10 +216,8 @@ class BaseSettings(MutableMapping):
         if k in self and setting <= self._data[k]:
             if not self._skip_error:
                 raise SettingsLowOrEqualPriorityException
-            else:
-                return
-        else:
-            self._data[k] = setting
+            return
+        self._data[k] = setting
 
     @frozen_check
     def __delitem__(self, k: str) -> None:
@@ -297,7 +295,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         if default_settings is True:
             default_settings = f"{self.__module__}.default_settings"
 
-        if find_spec(default_settings):
+        if find_spec(default_settings):  # type: ignore
             with self.unfreeze("default", skip_error=True) as settings_:
                 settings_.load_module(default_settings)  # pylint: disable=no-member
 
@@ -326,7 +324,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         if isinstance(yml, str):
             yml = Path(yml)
 
-        with yml.open() as fh:
+        with yml.open() as fh:  # pylint: disable=invalid-name
             yml_ = yaml.safe_load(fh)
 
         if yml_:
