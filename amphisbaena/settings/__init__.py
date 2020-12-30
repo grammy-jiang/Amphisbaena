@@ -1,7 +1,6 @@
 """
 Settings
 """
-
 from __future__ import annotations
 
 from collections.abc import MutableMapping
@@ -202,10 +201,13 @@ class BaseSettings(MutableMapping):
         :rtype: None
         """
         setting: Setting = Setting(self._priority, k, v)
-        if k in self and setting <= self._data[k] and not self._skip_error:
-            raise SettingsLowOrEqualPriorityException
-
-        self._data[k] = setting
+        if k in self and setting <= self._data[k]:
+            if not self._skip_error:
+                raise SettingsLowOrEqualPriorityException
+            else:
+                return
+        else:
+            self._data[k] = setting
 
     @frozen_check
     def __delitem__(self, k: str) -> None:

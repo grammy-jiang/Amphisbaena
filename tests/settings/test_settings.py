@@ -288,12 +288,16 @@ class BaseSettingsTest(TestCase):
                 settings_["a"] = 3
         except SettingsLowOrEqualPriorityException:
             self.fail("__setitem__ raised SettingsLowOrEqualPriorityException")
+        else:
+            self.assertEqual(settings._data["a"], Setting("project", "a", 1))
 
         try:
             with settings.unfreeze("project", skip_error=True) as settings_:
                 settings_["a"] = 3
         except SettingsLowOrEqualPriorityException:
             self.fail("__setitem__ raised SettingsLowOrEqualPriorityException")
+        else:
+            self.assertEqual(settings._data["a"], Setting("project", "a", 1))
 
     def test_delitem(self):
         """
