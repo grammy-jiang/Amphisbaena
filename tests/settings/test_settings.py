@@ -359,11 +359,17 @@ class SettingsTest(TestCase):
 
         settings = Settings(default_settings=True)
         self.assertIn("LOG_LEVEL", settings)
-        self.assertEqual(settings["LOG_LEVEL"], logging.INFO)
+        self.assertEqual(
+            settings._data["LOG_LEVEL"],  # pylint: disable = protected-access
+            Setting("default", "LOG_LEVEL", logging.INFO),
+        )
 
         settings = Settings(default_settings="tests.samples.settings")
         self.assertIn("A", settings)
-        self.assertEqual(settings["A"], 1)
+        self.assertEqual(
+            settings._data["A"],  # pylint: disable = protected-access
+            Setting("default", "A", 1),
+        )
 
     def test_load_module(self) -> None:
         """
