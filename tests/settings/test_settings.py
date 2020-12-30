@@ -1,6 +1,7 @@
 """
 Test BaseSettings class
 """
+import logging
 from collections.abc import Iterable
 from types import ModuleType
 from unittest.case import TestCase
@@ -347,6 +348,24 @@ class SettingsTest(TestCase):
         """
         del self.test_module
 
+    def test_init(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+
+        settings = Settings()
+        self.assertEqual(len(settings), 0)
+
+        settings = Settings(default_settings=True)
+        self.assertIn("LOG_LEVEL", settings)
+        self.assertEqual(settings["LOG_LEVEL"], logging.INFO)
+
+        settings = Settings(default_settings="tests.samples.settings")
+        self.assertIn("A", settings)
+        self.assertEqual(settings["A"], 1)
+
     def test_update_from_module(self):
         """
         test the method of update_from_module
@@ -382,7 +401,7 @@ class SettingsTest(TestCase):
 
         :return:
         """
-        settings = Settings(settings={"A": 1, "B": 2}, load_default=False)
+        settings = Settings(settings={"A": 1, "B": 2}, default_settings=False)
 
         self.assertDictEqual(settings.copy_to_dict(), {"A": 1, "B": 2})
 

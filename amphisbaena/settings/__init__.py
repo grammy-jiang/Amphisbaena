@@ -8,6 +8,7 @@ from collections.abc import MutableMapping
 from contextlib import contextmanager
 from dataclasses import dataclass
 from importlib import import_module
+from importlib.util import find_spec
 from types import ModuleType
 from typing import Any, Dict, Generator, Iterator, Mapping, Union
 
@@ -253,7 +254,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         self,
         settings: Mapping = None,
         priority: str = "project",
-        load_default: bool = True,
+        default_settings: Union[bool, str] = False,
     ):
         """
 
@@ -261,16 +262,20 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         :type settings: Mapping
         :param priority:
         :type priority: str
-        :param load_default:
-        :type load_default: bool
+        :param default_settings:
+        :type default_settings: bool
         """
         super().__init__(settings, priority)
 
-        if load_default:
+        if default_settings is False:
+            return
+
+        if default_settings is True:
+            default_settings = f"{self.__module__}.default_settings"
+
+        if find_spec(default_settings):
             with self.unfreeze(priority="default") as settings_:
-                settings_.load_module(  # pylint: disable=no-member
-                    f"{self.__module__}.default_settings"
-                )
+                settings_.load_module(default_settings)  # pylint: disable=no-member
 
     def load_module(self, module: Union[ModuleType, str]) -> None:
         """
