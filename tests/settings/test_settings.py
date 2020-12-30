@@ -388,18 +388,16 @@ class SettingsTest(TestCase):
             Setting("project", "A", 1),
         )
 
-        # settings = Settings()
-        # settings_: Settings
-        # with settings.unfreeze() as settings_:
-        #     settings_.load_module(  # pylint: disable=no-member
-        #         "amphisbaena.settings.default"
-        #     )
+        settings = Settings()
+        settings_: Settings
+        with settings.unfreeze() as settings_:
+            settings_.load_module("tests.samples.settings")
 
-        # self.assertIn("LOG_LEVEL", settings)
-        # self.assertEqual(
-        #     settings._data["LOG_LEVEL"],  # pylint: disable = protected-access
-        #     Setting(priority="project", priority_value=20, value=logging.INFO),
-        # )
+        self.assertIn("A", settings)
+        self.assertEqual(
+            settings._data["A"],  # pylint: disable = protected-access
+            Setting("project", "A", 1),
+        )
 
     def test_copy_to_dict(self):
         """
