@@ -8,6 +8,7 @@ from types import ModuleType
 from unittest.case import TestCase
 from unittest.main import main
 
+import orjson
 import yaml
 
 from amphisbaena.settings import (
@@ -458,6 +459,25 @@ class SettingsTest(TestCase):
         settings = Settings()
         with settings.unfreeze() as settings_:
             settings_.load_yaml(yaml_file.name)
+
+        self.assertIn("A", settings)
+        self.assertEqual(settings._data["A"], Setting("project", "A", 1))
+
+    def test_load_json(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        test_json = {"A": 1, "B": 2}
+
+        json_file = NamedTemporaryFile()
+        json_file.write(orjson.dumps(test_json))
+        json_file.seek(0)
+
+        settings = Settings()
+        with settings.unfreeze() as settings_:
+            settings_.load_json(json_file.name)
 
         self.assertIn("A", settings)
         self.assertEqual(settings._data["A"], Setting("project", "A", 1))

@@ -12,6 +12,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Dict, Generator, Iterator, Mapping, Union
 
+import orjson
 import yaml
 
 # The pair of priority and priority_value
@@ -329,6 +330,23 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
 
         if yml_:
             self.update(yml_)
+
+    def load_json(self, json: Union[str, Path]) -> None:
+        """
+
+        :param json:
+        :type json: Union[str, Path]
+        :return:
+        :rtype: None
+        """
+        if isinstance(json, str):
+            json = Path(json)
+
+        with json.open("rb") as fh:  # pylint: disable=invalid-name
+            json_ = orjson.loads(fh.read())
+
+        if json_:
+            self.update(json_)
 
     def copy_to_dict(self) -> Dict[str, Any]:
         """
