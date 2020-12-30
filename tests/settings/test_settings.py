@@ -394,6 +394,20 @@ class SettingsTest(TestCase):
             Setting("default", "A", 1),
         )
 
+        settings = Settings({"LOG_LEVEL": logging.DEBUG}, default_settings=True)
+        self.assertIn("LOG_LEVEL", settings)
+        self.assertEqual(
+            settings._data["LOG_LEVEL"],  # pylint: disable = protected-access
+            Setting("project", "LOG_LEVEL", logging.DEBUG),
+        )
+
+        settings = Settings({"A": 0}, default_settings="tests.samples.settings")
+        self.assertIn("A", settings)
+        self.assertEqual(
+            settings._data["A"],  # pylint: disable = protected-access
+            Setting("project", "A", 0),
+        )
+
     def test_load_module(self) -> None:
         """
         test the method of load_module

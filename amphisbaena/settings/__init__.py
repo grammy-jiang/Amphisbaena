@@ -286,7 +286,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
             default_settings = f"{self.__module__}.default_settings"
 
         if find_spec(default_settings):
-            with self.unfreeze(priority="default") as settings_:
+            with self.unfreeze("default", skip_error=True) as settings_:
                 settings_.load_module(default_settings)  # pylint: disable=no-member
 
     def load_module(self, module: Union[ModuleType, str]) -> None:
