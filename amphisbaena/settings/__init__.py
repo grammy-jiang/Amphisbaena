@@ -288,9 +288,8 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         if isinstance(module, str):
             module = import_module(module)
 
-        for key in dir(module):
-            if key.isupper():
-                self[key] = getattr(module, key)
+        for key in filter(lambda x: x.isupper(), dir(module)):
+            self[key] = getattr(module, key)
 
     def copy_to_dict(self) -> Dict[str, Any]:
         """

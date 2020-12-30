@@ -354,7 +354,6 @@ class SettingsTest(TestCase):
         :return:
         :rtype: None
         """
-
         settings = Settings()
         self.assertEqual(len(settings), 0)
 
@@ -366,12 +365,12 @@ class SettingsTest(TestCase):
         self.assertIn("A", settings)
         self.assertEqual(settings["A"], 1)
 
-    def test_update_from_module(self):
+    def test_load_module(self) -> None:
         """
-        test the method of update_from_module
+        test the method of load_module
         :return:
+        :rtype: None
         """
-
         settings = Settings()
         settings_: Settings
         with settings.unfreeze() as settings_:
