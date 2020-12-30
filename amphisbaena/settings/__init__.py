@@ -143,6 +143,7 @@ class BaseSettings(MutableMapping):
         :type priority: str
         """
         self._priority = priority
+        self._skip_error = False
 
         self._data: Dict[str, Setting] = {}
 
@@ -161,13 +162,21 @@ class BaseSettings(MutableMapping):
         return self._frozen
 
     @contextmanager
-    def unfreeze(self, priority: str = "project") -> Generator:
+    def unfreeze(self, priority: str = "project", skip_error=False) -> Generator:
         """
         A context manager to unfreeze this instance and keep the previous frozen
         status
+        :param priority:
+        :type priority: str
+        :param skip_error:
+        :type skip_error: bool
+        :return:
+        :rtype: Generator
         """
         _priority: str
         _priority, self._priority = self._priority, priority
+        _skip_error: bool
+        _skip_error, self._skip_error = self._skip_error, skip_error
 
         status: bool
         status, self._frozen = self._frozen, False
@@ -176,6 +185,7 @@ class BaseSettings(MutableMapping):
             yield self
         finally:
             self._priority = _priority
+            self._skip_error = _skip_error
             self._frozen = status
 
     # ---- abstract methods of MutableMapping ---------------------------------
@@ -192,7 +202,7 @@ class BaseSettings(MutableMapping):
         :rtype: None
         """
         setting: Setting = Setting(self._priority, k, v)
-        if k in self and setting <= self._data[k]:
+        if k in self and setting <= self._data[k] and not self._skip_error:
             raise SettingsLowOrEqualPriorityException
 
         self._data[k] = setting

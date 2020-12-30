@@ -241,19 +241,26 @@ class BaseSettingsTest(TestCase):
         self.assertTrue(settings.is_frozen())
         with settings.unfreeze() as settings_:
             self.assertFalse(settings_.is_frozen())
+            self.assertFalse(
+                settings_._skip_error
+            )  # pylint: disable = protected-access
         self.assertEqual(
             settings._priority,  # pylint: disable = protected-access
             "project",
         )
+        self.assertFalse(settings._skip_error)  # pylint: disable = protected-access
 
         with settings.unfreeze(priority="user") as settings_:
-            self.assertFalse(settings_.is_frozen())
             self.assertEqual(
                 settings_._priority, "user"  # pylint: disable = protected-access
             )
         self.assertEqual(
             settings._priority, "project"  # pylint: disable = protected-access
         )
+
+        with settings.unfreeze(skip_error=True) as settings_:
+            self.assertTrue(settings_._skip_error)  # pylint: disable = protected-access
+        self.assertFalse(settings._skip_error)  # pylint: disable = protected-access
 
     def test_setitem(self):
         """
@@ -275,6 +282,18 @@ class BaseSettingsTest(TestCase):
         with self.assertRaises(SettingsLowOrEqualPriorityException):
             with settings.unfreeze("project") as settings_:
                 settings_["a"] = 3
+
+        try:
+            with settings.unfreeze("default", skip_error=True) as settings_:
+                settings_["a"] = 3
+        except SettingsLowOrEqualPriorityException:
+            self.fail("__setitem__ raised SettingsLowOrEqualPriorityException")
+
+        try:
+            with settings.unfreeze("project", skip_error=True) as settings_:
+                settings_["a"] = 3
+        except SettingsLowOrEqualPriorityException:
+            self.fail("__setitem__ raised SettingsLowOrEqualPriorityException")
 
     def test_delitem(self):
         """
