@@ -98,6 +98,20 @@ class Setting:
             raise CompareWithNotSameNameSettingException
         return self.priority_value < other.priority_value
 
+    def __le__(self, other: object) -> bool:
+        """
+
+        :param other:
+        :type other: object
+        :return:
+        :rtype: bool
+        """
+        if not isinstance(other, self.__class__):
+            raise CompareWithNotSettingException
+        if self.name != other.name:
+            raise CompareWithNotSameNameSettingException
+        return self.priority_value <= other.priority_value
+
 
 class BaseSettings(MutableMapping):
     """
