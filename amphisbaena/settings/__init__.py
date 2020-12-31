@@ -382,6 +382,22 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
             obj_.load_yaml(yml)
         return obj
 
+    @classmethod
+    def from_json(cls, json: Union[str, Path], priority: str = "project") -> Settings:
+        """
+
+        :param json:
+        :type json: Union[str, Path]
+        :param priority:
+        :type priority: str
+        :return:
+        :rtype: Settings
+        """
+        obj = cls()
+        with obj.unfreeze(priority) as obj_:
+            obj_.load_json(json)
+        return obj_
+
     def copy_to_dict(self) -> Dict[str, Any]:
         """
 
