@@ -83,6 +83,10 @@ class SettingTest(TestCase):
         setting_not_same_value = Setting("default", "a", "not_same_value")
         self.assertFalse(setting_not_same_value == self.setting_a)
 
+        setting_not_same_priority_value = Setting("default", "a", "a")
+        setting_not_same_priority_value.priority_value = 1
+        self.assertFalse(setting_not_same_priority_value == self.setting_a)
+
     def test_ne(self) -> None:
         """
 
