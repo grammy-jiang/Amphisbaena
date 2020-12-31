@@ -366,6 +366,22 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
             obj_.load_module(module)
         return obj
 
+    @classmethod
+    def from_yaml(cls, yml: Union[str, Path], priority: str = "project") -> Settings:
+        """
+
+        :param yml:
+        :type yml: Union[str, Path]
+        :param priority:
+        :type priority: str
+        :return:
+        :rtype: Settings
+        """
+        obj = cls()
+        with obj.unfreeze(priority) as obj_:
+            obj_.load_yaml(yml)
+        return obj
+
     def copy_to_dict(self) -> Dict[str, Any]:
         """
 

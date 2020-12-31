@@ -504,6 +504,22 @@ class SettingsTest(TestCase):
             Setting("default", "A", 1),
         )
 
+    def test_from_yaml(self) -> None:
+        """
+
+        :return:
+        :rtype: None
+        """
+        test_yaml = {"A": 1, "B": 2}
+
+        yaml_file = NamedTemporaryFile(mode="w")
+        yaml.dump(test_yaml, yaml_file)
+
+        settings = Settings.from_yaml(yaml_file.name, "default")
+
+        self.assertIn("A", settings)
+        self.assertEqual(settings._data["A"], Setting("default", "A", 1))
+
     def test_copy_to_dict(self):
         """
 
