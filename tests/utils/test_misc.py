@@ -1,6 +1,7 @@
 """
 The test cases of miscellaneous
 """
+import json
 from unittest.case import TestCase
 from unittest.main import main
 
@@ -31,6 +32,9 @@ class MiscTest(TestCase):
 
         module = load_object("tests.samples.settings")  # module
         self.assertIs(module, settings)
+
+        module = load_object("json")  # module
+        self.assertIs(module, json)
 
 
 if __name__ == "__main__":
