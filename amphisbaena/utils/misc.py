@@ -15,10 +15,13 @@ def load_object(path: str) -> Any:
     :return:
     :rtype: Any
     """
+    parts = path.rsplit(".", 1)
+
+    module = import_module(parts[0])
+
     try:
-        module, name = path.rsplit(".", 1)
-    except ValueError:
-        return import_module(path)
+        name = parts[1]
+    except IndexError:
+        return module
     else:
-        module_ = import_module(module)
-        return getattr(module_, name)
+        return getattr(module, name)
