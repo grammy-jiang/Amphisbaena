@@ -6,6 +6,9 @@ import platform
 import pprint
 import ssl
 
+import orjson
+import yaml
+
 from amphisbaena.settings import Settings
 
 
@@ -73,6 +76,8 @@ def get_runtime_info(logger) -> None:
             "versions": pprint.pformat(
                 {
                     "Python": platform.python_version(),
+                    "orjson": orjson.__version__,
+                    "PyYAML": yaml.__version__,
                 }
             )
         },
