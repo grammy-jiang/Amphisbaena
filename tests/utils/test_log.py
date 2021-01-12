@@ -24,10 +24,11 @@ class LogTest(TestCase):
         :return:
         :rtype: None
         """
-        settings = Settings(default_settings=True)
+        settings = Settings(default_settings="tests.samples.settings")
         configure_logging(settings)
 
         add_handler.assert_called()
+
         (handler,), _ = add_handler.call_args
         self.assertIsInstance(handler, logging.StreamHandler)
 
