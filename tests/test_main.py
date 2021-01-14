@@ -23,17 +23,17 @@ class MainTest(TestCase):
         :rtype: None
         """
 
-        args = ("--settings", "a=1", "--settings", "b=2")
+        args = ("--settings", "A=1", "--settings", "B=2")
 
         ns = get_arguments(*args)
         self.assertIsInstance(ns, Namespace)
-        self.assertDictEqual(ns.settings, {"a": 1, "b": 2})
+        self.assertDictEqual(ns.settings, {"A": 1, "B": 2})
 
-        args = ("-s", "a=1", "-s", "b=2")
+        args = ("-s", "A=1", "-s", "B=2")
 
         ns = get_arguments(*args)
         self.assertIsInstance(ns, Namespace)
-        self.assertDictEqual(ns.settings, {"a": 1, "b": 2})
+        self.assertDictEqual(ns.settings, {"A": 1, "B": 2})
 
     @patch("amphisbaena.__main__.configure_logging")
     @patch("amphisbaena.__main__.get_runtime_info")
