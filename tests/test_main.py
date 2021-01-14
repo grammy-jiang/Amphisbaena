@@ -7,7 +7,7 @@ from unittest.case import TestCase
 from unittest.main import main
 from unittest.mock import MagicMock, patch
 
-from amphisbaena.__main__ import get_arguments, set_logging
+from amphisbaena.__main__ import get_arguments, main, set_logging
 from amphisbaena.settings import Settings
 
 
@@ -57,6 +57,24 @@ class MainTest(TestCase):
         configure_logging.assert_called_once_with(settings)
         get_runtime_info.assert_called_once_with(logger)
         self.assertEqual(logger.level, settings["LOG_LEVEL"])
+
+    @patch("amphisbaena.__main__.set_logging")
+    def test_main(self, set_logging: MagicMock) -> None:
+        """
+
+        :param set_logging:
+        :type set_logging: MagicMock
+        :return:
+        :rtype: None
+        """
+        main("--settings", "A=1", "-s", "B=2")
+
+        set_logging.assert_called()
+        (settings,) = set_logging.call_args[0]
+        self.assertIn("A", settings)
+        self.assertEqual(settings["A"], 1)
+        self.assertIn("B", settings)
+        self.assertEqual(settings["B"], 2)
 
 
 if __name__ == "__main__":

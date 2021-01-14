@@ -88,12 +88,12 @@ def set_logging(settings: Settings) -> None:
     get_runtime_info(logger)
 
 
-def main():
-    args: Namespace = get_arguments(*sys.argv[1:])
+def main(*args):
+    args: Namespace = get_arguments(*args)
 
     settings = Settings(settings=args.settings, priority="cmd", default_settings=True)
     set_logging(settings)
 
 
 if __name__ == "__main__":
-    main()
+    main(*sys.argv[1:])
