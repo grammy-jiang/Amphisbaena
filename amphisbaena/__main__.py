@@ -4,12 +4,14 @@ The main of the module
 import logging
 import sys
 from argparse import Action, ArgumentParser, Namespace
-from typing import Dict
 from ast import literal_eval
+from typing import Dict
 
 import amphisbaena
 from amphisbaena.settings import Settings
 from amphisbaena.utils import configure_logging, get_runtime_info
+
+PROG = "amphisbaena"
 
 
 class SettingsAppend(Action):  # pylint: disable=too-few-public-methods
@@ -50,7 +52,7 @@ def get_arguments(*args) -> Namespace:
     :return:
     :rtype: Namespace
     """
-    parser = ArgumentParser()
+    parser = ArgumentParser(prog=PROG)
 
     parser.add_argument(
         "-s",
