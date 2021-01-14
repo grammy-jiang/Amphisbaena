@@ -20,17 +20,17 @@ class MainTest(TestCase):
         :rtype: None
         """
 
-        args = ("--settings", "a=1")
+        args = ("--settings", "a=1", "--settings", "b=2")
 
         ns = get_arguments(*args)
         self.assertIsInstance(ns, Namespace)
-        self.assertDictEqual(ns.settings, {"a": 1})
+        self.assertDictEqual(ns.settings, {"a": 1, "b": 2})
 
-        args = ("-s", "b=2")
+        args = ("-s", "a=1", "-s", "b=2")
 
         ns = get_arguments(*args)
         self.assertIsInstance(ns, Namespace)
-        self.assertDictEqual(ns.settings, {"b": 2})
+        self.assertDictEqual(ns.settings, {"a": 1, "b": 2})
 
 
 if __name__ == "__main__":
