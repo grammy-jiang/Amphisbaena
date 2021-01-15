@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+bandit = "*"
+black = "*"
+isort = "*"
+mypy = "*"
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+radon = "*"
+tox = "*"
+
+[packages]
+pyyaml = "*"
+orjson = "*"
+versioneer = "*"
