@@ -2,13 +2,14 @@
 The main of the module
 """
 import logging
+import os
 import sys
 from argparse import Action, ArgumentParser, Namespace
 from ast import literal_eval
 from typing import Dict
 
 import amphisbaena
-from amphisbaena.settings import Settings
+from amphisbaena.settings import Settings, SettingsException
 from amphisbaena.utils import configure_logging, get_runtime_info
 
 PROG = "amphisbaena"
@@ -94,6 +95,11 @@ def set_logging(settings: Settings) -> None:
 
 
 def main(*args):
+    """
+
+    :param args:
+    :return:
+    """
     args: Namespace = get_arguments(*args)
 
     settings = Settings(settings=args.settings, priority="cmd", default_settings=True)
@@ -101,4 +107,9 @@ def main(*args):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:])
+    try:
+        main(*sys.argv[1:])
+    except SettingsException:
+        sys.exit(os.EX_CONFIG)
+    else:
+        sys.exit(os.EX_OK)
