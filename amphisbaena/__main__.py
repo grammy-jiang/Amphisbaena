@@ -29,10 +29,15 @@ class SettingsAppend(Action):  # pylint: disable=too-few-public-methods
         """
 
         :param parser:
+        :type parser: ArgumentParser
         :param namespace:
+        :type namespace: Namespace
         :param values:
+        :type values: str
         :param option_string:
+        :type option_string:
         :return:
+        :rtype: None
         """
         items: Dict = getattr(namespace, self.dest)
 
