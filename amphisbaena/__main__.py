@@ -19,7 +19,7 @@ class SettingsAppend(Action):  # pylint: disable=too-few-public-methods
     Save settings into dict
     """
 
-    def __call__(
+    def __call__(  # type: ignore
         self,
         parser: ArgumentParser,
         namespace: Namespace,
