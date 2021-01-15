@@ -363,7 +363,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         """
         obj = cls()
         with obj.unfreeze(priority) as obj_:
-            obj_.load_module(module)
+            obj_.load_module(module)  # pylint: disable=no-member
         return obj
 
     @classmethod
@@ -379,7 +379,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         """
         obj = cls()
         with obj.unfreeze(priority) as obj_:
-            obj_.load_yaml(yml)
+            obj_.load_yaml(yml)  # pylint: disable=no-member
         return obj
 
     @classmethod
@@ -395,7 +395,7 @@ class Settings(BaseSettings):  # pylint: disable=too-many-ancestors
         """
         obj = cls()
         with obj.unfreeze(priority) as obj_:
-            obj_.load_json(json)
+            obj_.load_json(json)  # pylint: disable=no-member
         return obj_
 
     def copy_to_dict(self) -> Dict[str, Any]:
