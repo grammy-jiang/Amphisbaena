@@ -428,7 +428,6 @@ class SettingsTest(TestCase):
         :rtype: None
         """
         settings = Settings()
-        settings_: Settings
         with settings.unfreeze() as settings_:
             settings_.load_module(self.test_module)  # pylint: disable=no-member
 
@@ -439,7 +438,6 @@ class SettingsTest(TestCase):
         )
 
         settings = Settings()
-        settings_: Settings
         with settings.unfreeze() as settings_:
             settings_.load_module("tests.samples.settings")
 

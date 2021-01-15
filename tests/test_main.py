@@ -7,7 +7,9 @@ from unittest.case import TestCase
 from unittest.main import main
 from unittest.mock import MagicMock, patch
 
-from amphisbaena.__main__ import get_arguments, main, set_logging
+from amphisbaena.__main__ import get_arguments
+from amphisbaena.__main__ import main as a_main
+from amphisbaena.__main__ import set_logging
 from amphisbaena.settings import Settings
 
 
@@ -67,7 +69,7 @@ class MainTest(TestCase):
         :return:
         :rtype: None
         """
-        main("--settings", "A=1", "-s", "B=2")
+        a_main("--settings", "A=1", "-s", "B=2")
 
         set_logging.assert_called()
         (settings,) = set_logging.call_args[0]
