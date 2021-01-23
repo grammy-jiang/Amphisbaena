@@ -7,7 +7,7 @@ from unittest.case import TestCase
 from unittest.main import main
 
 from amphisbaena.settings import PRIORITIES, Settings
-from amphisbaena.utils.misc import load_object, to_sync, to_async
+from amphisbaena.utils.misc import load_object, to_async, to_sync
 from tests.samples import settings
 
 
