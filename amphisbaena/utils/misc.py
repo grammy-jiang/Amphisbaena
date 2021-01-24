@@ -5,7 +5,7 @@ import asyncio
 import functools
 from functools import lru_cache
 from importlib import import_module
-from typing import Any, Callable
+from typing import Any, Callable, Union
 
 
 @lru_cache
@@ -73,3 +73,55 @@ def to_async(func: Callable, executor=None) -> Callable:
             return await loop.run_in_executor(executor, _)
 
     return convert_to_async
+
+
+@lru_cache
+def to_str(
+    text: Union[bytes, str], encoding: str = "utf-8", errors: str = "strict"
+) -> str:
+    """
+    Convert text to str.
+
+    Refer to:
+    https://docs.python.org/3/library/stdtypes.html#bytes.decode
+
+    :param text:
+    :type text: Union[bytes, str]
+    :param encoding:
+    :type encoding: str
+    :param errors:
+    :type errors: str
+    :return:
+    :rtype: str
+    """
+    if isinstance(text, bytes):
+        return text.decode(encoding, errors)
+    if isinstance(text, str):
+        return text
+    raise TypeError
+
+
+@lru_cache
+def to_bytes(
+    text: Union[bytes, str], encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    """
+    Convert text to bytes.
+
+    Refer to:
+    https://docs.python.org/3/library/stdtypes.html#str.encode
+
+    :param text:
+    :type text: Union[bytes, str]
+    :param encoding:
+    :type encoding: str
+    :param errors:
+    :type errors: str
+    :return:
+    :rtype: bytes
+    """
+    if isinstance(text, str):
+        return text.encode(encoding, errors)
+    if isinstance(text, bytes):
+        return text
+    raise TypeError

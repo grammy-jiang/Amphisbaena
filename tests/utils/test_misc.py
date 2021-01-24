@@ -7,7 +7,7 @@ from unittest.case import TestCase
 from unittest.main import main
 
 from amphisbaena.settings import PRIORITIES, Settings
-from amphisbaena.utils.misc import load_object, to_async, to_sync
+from amphisbaena.utils.misc import load_object, to_async, to_bytes, to_str, to_sync
 from tests.samples import settings
 
 
@@ -86,6 +86,18 @@ class MiscTest(TestCase):
         self.assertSequenceEqual(
             loop.run_until_complete(async_func("a", "b", "c")), ("a", "b", "c")
         )
+
+    def test_to_bytes(self):
+        self.assertEqual(to_bytes("a"), b"a")
+        self.assertEqual(to_bytes(b"a"), b"a")
+        with self.assertRaises(TypeError):
+            to_bytes(0)
+
+    def test_to_str(self):
+        self.assertEqual(to_str(b"a"), "a")
+        self.assertEqual(to_str("a"), "a")
+        with self.assertRaises(TypeError):
+            to_str(0)
 
 
 if __name__ == "__main__":
