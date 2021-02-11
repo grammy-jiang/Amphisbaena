@@ -43,8 +43,7 @@ def to_sync(func: Callable) -> Callable:
     def convert_to_sync(*args, **kwargs):
         if asyncio.iscoroutinefunction(func):
             return loop.run_until_complete(func(*args, **kwargs))
-        else:
-            return func(*args, **kwargs)
+        return func(*args, **kwargs)
 
     return convert_to_sync
 
