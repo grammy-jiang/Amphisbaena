@@ -62,7 +62,7 @@ def get_arguments(*args) -> Namespace:
 
     parser.add_argument(
         "-s",
-        "--settings",
+        "--setting",
         action=SettingsAppend,
         default=dict(),
         help="configure the setting from command line interface",
@@ -105,9 +105,7 @@ def main(*args):
 
     ns_args: Namespace = get_arguments(*args)
 
-    settings = Settings(
-        settings=ns_args.settings, priority="cmd", default_settings=True
-    )
+    settings = Settings(settings=ns_args.setting, priority="cmd", default_settings=True)
     set_logging(settings)
 
 
