@@ -3,9 +3,13 @@ The test cases of __main__
 """
 import logging
 from argparse import Namespace
+from tempfile import NamedTemporaryFile
 from unittest.case import TestCase
 from unittest.main import main
 from unittest.mock import MagicMock, patch
+
+import orjson
+import yaml
 
 from amphisbaena.__main__ import get_arguments
 from amphisbaena.__main__ import main as a_main
@@ -36,6 +40,20 @@ class MainTest(TestCase):
         ns = get_arguments(*args)
         self.assertIsInstance(ns, Namespace)
         self.assertDictEqual(ns.setting, {"A": 1, "B": 2})
+
+        with NamedTemporaryFile(suffix=".json") as fp:
+            fp.write(orjson.dumps({"A": 1, "B": 2}))
+            fp.seek(0)
+            ns = get_arguments("--config", fp.name)
+            self.assertIsInstance(ns, Namespace)
+            self.assertDictEqual(ns.config, {"A": 1, "B": 2})
+
+        with NamedTemporaryFile(mode="w", suffix=".yaml") as fp:
+            fp.write(yaml.safe_dump({"A": 1, "B": 2}))
+            fp.seek(0)
+            ns = get_arguments("--config", fp.name)
+            self.assertIsInstance(ns, Namespace)
+            self.assertDictEqual(ns.config, {"A": 1, "B": 2})
 
     @patch("amphisbaena.__main__.configure_logging")
     @patch("amphisbaena.__main__.get_runtime_info")
