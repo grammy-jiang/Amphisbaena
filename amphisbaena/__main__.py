@@ -8,6 +8,9 @@ from argparse import Action, ArgumentParser, Namespace
 from ast import literal_eval
 from typing import Dict
 
+import orjson
+import yaml
+
 import amphisbaena
 from amphisbaena.settings import Settings, SettingsException
 from amphisbaena.utils import configure_logging, get_runtime_info
@@ -50,6 +53,41 @@ class SettingsAppend(Action):  # pylint: disable=too-few-public-methods
         setattr(namespace, self.dest, items)
 
 
+class ConfigAppend(Action):
+    """
+    Load the config file into dict
+    """
+
+    def __call__(
+        self,
+        parser: ArgumentParser,
+        namespace: Namespace,
+        values: str,
+        option_string=None,
+    ):
+        """
+
+        :param parser:
+        :param namespace:
+        :param values:
+        :param option_string:
+        :return:
+        """
+        items: Dict = getattr(namespace, self.dest)
+
+        suffix = values.rsplit(".")[-1]
+
+        with open(values, "r") as fh:
+            if suffix == "json":
+                config = orjson.loads(fh.read())
+            elif suffix in ("yaml", "yml"):
+                config = yaml.safe_load(fh)
+
+        items.update(config)
+
+        setattr(namespace, self.dest, items)
+
+
 def get_arguments(*args) -> Namespace:
     """
 
@@ -60,6 +98,13 @@ def get_arguments(*args) -> Namespace:
     """
     parser = ArgumentParser(prog=PROG)
 
+    parser.add_argument(
+        "-c",
+        "--config",
+        action=ConfigAppend,
+        default=dict(),
+        help="load the configuration of the setting from a file",
+    )
     parser.add_argument(
         "-s",
         "--setting",
@@ -105,7 +150,11 @@ def main(*args):
 
     ns_args: Namespace = get_arguments(*args)
 
-    settings = Settings(settings=ns_args.setting, priority="cmd", default_settings=True)
+    settings = Settings(
+        settings={**ns_args.setting, **ns_args.config},
+        priority="cmd",
+        default_settings=True,
+    )
     set_logging(settings)
 
 
