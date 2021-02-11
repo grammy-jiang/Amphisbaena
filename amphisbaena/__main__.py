@@ -100,9 +100,14 @@ def main(*args):
     :param args:
     :return:
     """
-    args: Namespace = get_arguments(*args)
+    if not args:
+        args = sys.argv[1:]
 
-    settings = Settings(settings=args.settings, priority="cmd", default_settings=True)
+    ns_args: Namespace = get_arguments(*args)
+
+    settings = Settings(
+        settings=ns_args.settings, priority="cmd", default_settings=True
+    )
     set_logging(settings)
 
 
