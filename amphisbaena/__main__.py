@@ -145,9 +145,6 @@ def main(*args):
     :param args:
     :return:
     """
-    if not args:
-        args = sys.argv[1:]
-
     ns_args: Namespace = get_arguments(*args)
 
     settings = Settings(
@@ -158,10 +155,22 @@ def main(*args):
     set_logging(settings)
 
 
-if __name__ == "__main__":
+def entrypoint(*args):
+    """
+
+    :param args:
+    :return:
+    """
+    if not args:
+        args = sys.argv[1:]
+
     try:
-        main(*sys.argv[1:])
+        main(*args)
     except SettingsException:
         sys.exit(os.EX_CONFIG)
     else:
         sys.exit(os.EX_OK)
+
+
+if __name__ == "__main__":
+    entrypoint(*sys.argv[1:])
