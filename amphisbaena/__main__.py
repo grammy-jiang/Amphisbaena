@@ -58,7 +58,7 @@ class ConfigAppend(Action):  # pylint: disable=too-few-public-methods
     Load the config file into dict
     """
 
-    def __call__(
+    def __call__(  # type: ignore
         self,
         parser: ArgumentParser,
         namespace: Namespace,
@@ -68,10 +68,15 @@ class ConfigAppend(Action):  # pylint: disable=too-few-public-methods
         """
 
         :param parser:
+        :type parser: ArgumentParser
         :param namespace:
+        :type namespace: Namespace
         :param values:
+        :type values: str
         :param option_string:
+        :type option_string:
         :return:
+        :rtype: None
         """
         items: Dict = getattr(namespace, self.dest)
 
