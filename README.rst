@@ -1,3 +1,5 @@
+[![Python package](https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg?branch=master)](https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml)
+
 Amphisbaena
 ===========
 
