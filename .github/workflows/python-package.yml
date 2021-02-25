@@ -41,9 +41,11 @@ jobs:
     - name: Static type check with Mypy
       run: |
         mypy amphisbaena
-    - name: Compute code metrics with Radon
+    - name: Compute code metrics with Radon - Cyclomatic Complexity (CC)
       run: |
         radon cc amphisbaena --min C --show-complexity --total-average --show-closures
+    - name: Compute code metrics with Radon - Maintainablility Index (MI)
+      run: |
         radon mi amphisbaena --show --sort
     - name: Lint with flake8
       run: |
