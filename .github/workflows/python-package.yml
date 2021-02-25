@@ -10,7 +10,8 @@ on:
     - ".github/workflows/python-package.yml"
   pull_request:
     branches: [ master ]
-
+  workflow_dispatch:
+  
 jobs:
   build:
 
