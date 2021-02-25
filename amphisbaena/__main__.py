@@ -77,11 +77,11 @@ class ConfigAppend(Action):
 
         suffix = values.rsplit(".")[-1]
 
-        with open(values, "r") as fh:
+        with open(values, "r") as config_fh:
             if suffix == "json":
-                config = orjson.loads(fh.read())
+                config = orjson.loads(config_fh.read())
             elif suffix in ("yaml", "yml"):
-                config = yaml.safe_load(fh)
+                config = yaml.safe_load(config_fh)
 
         items.update(config)
 
