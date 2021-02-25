@@ -53,7 +53,7 @@ class SettingsAppend(Action):  # pylint: disable=too-few-public-methods
         setattr(namespace, self.dest, items)
 
 
-class ConfigAppend(Action):
+class ConfigAppend(Action):  # pylint: disable=too-few-public-methods
     """
     Load the config file into dict
     """
