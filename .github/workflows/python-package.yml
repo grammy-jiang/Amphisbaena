@@ -41,6 +41,9 @@ jobs:
     - name: Static type check with Mypy
       run: |
         mypy amphisbaena
+    - name: Compute code metrics with Radon
+      run: |
+        radon cc amphisbaena --min C --show-complexity --total-average --show-closures
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
