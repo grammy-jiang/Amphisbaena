@@ -1,4 +1,4 @@
-https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg
+![Github Actions](https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg)
 
 Amphisbaena
 ===========
