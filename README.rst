@@ -1,5 +1,7 @@
 ![Github Actions](https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg)
 
+![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
 Amphisbaena
 ===========
 
