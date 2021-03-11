@@ -38,7 +38,7 @@ jobs:
         bandit -r amphisbaena -x amphisbaena/_version.py
     - name: Black the code format
       run: |
-        black --color --diff
+        black --color --diff amphisbaena
     - name: Lint with Pylint
       run: |
         pylint amphisbaena
