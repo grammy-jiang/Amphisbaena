@@ -8,11 +8,14 @@ on:
     branches: [ master ]
     paths-ignore:
     - ".github/workflows/python-package.yml"
+    - ".gitignore"
+    - "LICENSE"
+    - "README.rst"
   pull_request:
     branches: [ master ]
   workflow_dispatch:
   release:
-  
+
 jobs:
   build:
 
