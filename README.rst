@@ -4,8 +4,10 @@ Amphisbaena
 
 .. image:: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg
    :target: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml
+   :alt: Github Actions
 
 .. image:: https://img.shields.io/codecov/c/github/grammy-jiang/Amphisbaena
+   :target: https://app.codecov.io/gh/grammy-jiang/Amphisbaena
    :alt: Codecov
 
 From Wikipedia_::
