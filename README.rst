@@ -1,7 +1,5 @@
 .. image:: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg
    :target: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml
-.. image:: https://img.shields.io/github/downloads/grammy-jiang/Amphisbaena/total
-   :alt: GitHub all releases
 
 Amphisbaena
 ===========
