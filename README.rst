@@ -1,10 +1,12 @@
-.. image:: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg
-   :target: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml
-.. image:: https://img.shields.io/codecov/c/github/grammy-jiang/Amphisbaena
-   :alt: Codecov
-
+===========
 Amphisbaena
 ===========
+
+.. image:: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml/badge.svg
+   :target: https://github.com/grammy-jiang/Amphisbaena/actions/workflows/python-package.yml
+
+.. image:: https://img.shields.io/codecov/c/github/grammy-jiang/Amphisbaena
+   :alt: Codecov
 
 From Wikipedia_::
 
