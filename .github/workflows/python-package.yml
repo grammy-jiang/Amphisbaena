@@ -69,6 +69,7 @@ jobs:
         fail_ci_if_error: true
       
   deploy:
+    needs: build
 
     runs-on: ubuntu-latest
 
