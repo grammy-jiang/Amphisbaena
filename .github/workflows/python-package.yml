@@ -70,6 +70,7 @@ jobs:
 
   deploy:
     needs: build
+    if: contains(github.ref, 'refs/tags/')
 
     runs-on: ubuntu-latest
 
